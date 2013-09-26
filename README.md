@@ -1,0 +1,4 @@
+filetree
+========
+
+A simple filetree
