@@ -1,13 +1,8 @@
 (function() {
-  var File, Filetree;
-
-  Filetree = require("./filetree");
-
-  File = require("./file");
-
   module.exports = {
-    File: File,
-    Filetree: Filetree
+    File: require("./filetree"),
+    Filetree: require("./file"),
+    template: require("./templates/filetree")
   };
 
   require("./demo");
