@@ -10,4 +10,4 @@ requests.
       template: require "./templates/filetree"
 
     # TODO: Check if package is root package and then run demo
-    require "./demo"
+    # require "./demo"
