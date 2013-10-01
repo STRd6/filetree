@@ -5,6 +5,4 @@
     template: require("./templates/filetree")
   };
 
-  require("./demo");
-
 }).call(this);
