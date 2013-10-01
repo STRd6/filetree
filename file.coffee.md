@@ -5,8 +5,10 @@ The `File` model represents a file in a file system. It is populated by data
 returned from the Github API.
 
     File = (I={}) ->
-      I.path ?= I.filename
-      I.filename ?= I.path.split("/").last()
+      Object.defaults I,
+        content: ""
+
+      throw "File must have a path" unless I.path
 
       self = Model(I).observeAll()
 
@@ -17,7 +19,7 @@ The extension is the last part of the filename after the `.`, for example
 `"filetree.haml"`.
 
         extension: ->
-          self.filename().extension()
+          self.path().extension()
 
 The `mode` of the file is what editor mode to use for our text editor.
 
