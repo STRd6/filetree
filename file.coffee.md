@@ -4,13 +4,27 @@ File Model
 The `File` model represents a file in a file system. It is populated by data
 returned from the Github API.
 
+    Composition = require "composition"
+    Observable = require "observable"
+    {defaults} = require "util"
+
+Attributes
+----------
+`modified` tracks whether the file has been changed since it was created.
+
+
+
     File = (I={}) ->
-      Object.defaults I,
+      defaults I,
         content: ""
+        modified: false
+        path: ""
 
       throw "File must have a path" unless I.path
 
-      self = Model(I).observeAll()
+      self = Composition(I)
+
+      self.attrObservable Object.keys(I)...
 
       self.extend
 
@@ -35,10 +49,6 @@ The `mode` of the file is what editor mode to use for our text editor.
               "text"
             else
               extension
-
-Modified tracks whether the file has been changed since it was created.
-
-        modified: Observable(false)
 
 The `displayName` is how the file appears in views.
 

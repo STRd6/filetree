@@ -9,5 +9,8 @@ requests.
       Filetree: require "./filetree"
       template: require "./templates/filetree"
 
-    # TODO: Check if package is root package and then run demo
-    # require "./demo"
+    # Check if package is root package and then run demo
+    if PACKAGE.name is "ROOT"
+      global.Observable = require "observable" # TODO: Hack for templating
+
+      require "./demo"

@@ -3,13 +3,18 @@ Filetree Model
 
     File = require("./file")
 
+    Composition = require "composition"
+    {defaults} = require "util"
+
 The `Filetree` model represents a tree of files.
 
     Filetree = (I={}) ->
-      Object.defaults I,
+      defaults I,
         files: []
 
-      self = Model(I).observeAll()
+      self = Composition(I)
+
+      self.attrModels "files", File
 
 The `selectedFile` observable keeps people up to date on what file has been
 selected.
@@ -69,7 +74,7 @@ TODO: There can be race conditions since the save is async.
 TODO: Use git trees and content shas to robustly manage changed state.
 
         markSaved: ->
-          self.files().each (file) ->
+          self.files().forEach (file) ->
             file.modified(false)
 
       return self
