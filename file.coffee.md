@@ -12,7 +12,9 @@ Attributes
 ----------
 `modified` tracks whether the file has been changed since it was created.
 
+`path` is the path to the file.
 
+`content` contains the text content of the file.
 
     File = (I={}) ->
       defaults I,

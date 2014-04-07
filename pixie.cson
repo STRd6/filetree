@@ -1,8 +1,4 @@
-version: "0.3.0"
-remoteDependencies: [
-  "//code.jquery.com/jquery-1.10.1.min.js"
-  "//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"
-]
+version: "0.3.1-pre.0"
 dependencies:
   composition: "distri/compositions:v0.1.0"
   observable: "distri/observable:v0.1.0"

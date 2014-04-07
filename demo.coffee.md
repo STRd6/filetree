@@ -19,4 +19,4 @@ A demo application displaying the filetree.
     filetree.selectedFile.observe (file) ->
       console.log file
 
-    $('body').append template(filetree)
+    document.body.appendChild template(filetree)
