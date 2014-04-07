@@ -63,6 +63,8 @@ Observable = require <span class="string">"observable"</span>
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p><code>modified</code> tracks whether the file has been changed since it was created.</p>
+<p><code>path</code> is the path to the file.</p>
+<p><code>content</code> contains the text content of the file.</p>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">File</span></span> = (I={}) -&gt;
@@ -186,9 +188,7 @@ indication.</p>
     </ul>
   </div>
   <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script>
-<script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script><script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.6.3/coffee-script.min.js"></script><script>
   (function() {
   var ErrorReporter, bindUpdates, createEditor, exec, findInteractiveElements, readShebang, runners;
 
