@@ -1,5 +1,6 @@
 version: "0.3.1-pre.0"
 dependencies:
-  composition: "distri/compositions:v0.1.0"
-  observable: "distri/observable:v0.1.0"
+  composition: "distri/compositions:v0.1.1"
+  observable: "distri/observable:v0.1.1"
+  sha1: "distri/sha1:v0.1.0"
   util: "distri/util:v0.1.0"

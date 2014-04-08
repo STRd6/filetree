@@ -8,6 +8,8 @@ returned from the Github API.
     Observable = require "observable"
     {defaults} = require "util"
 
+    {SHA1} = require "sha1"
+
 Attributes
 ----------
 `modified` tracks whether the file has been changed since it was created.
@@ -35,7 +37,9 @@ The extension is the last part of the filename after the `.`, for example
 `"filetree.haml"`.
 
         extension: ->
-          self.path().extension()
+          extension self.path()
+
+TODO: mode should be moved out of here.
 
 The `mode` of the file is what editor mode to use for our text editor.
 
@@ -72,8 +76,31 @@ indication.
         else
           self.displayName(self.path())
 
+      self.sha = Observable ->
+        sha = SHA1(self.content()).toString()
+
+        console.log sha
+
+        sha
+
+      self.displayName = Observable ->
+        changed = ""
+        if self.modified()
+          changed = "*"
+
+        "#{changed}#{self.path()}#{self.sha()}"
+
       return self
 
 Export
 
     module.exports = File
+
+Helpers
+-------
+
+    extension = (path) ->
+      if match = path.match(/\.([^\.]*)$/, '')
+        match[1]
+      else
+        ''

@@ -18,5 +18,15 @@ A demo application displaying the filetree.
 
     filetree.selectedFile.observe (file) ->
       console.log file
+      textarea.value = file.content()
+      textarea.onchange = ->
+        console.log "yo/o"
+        file.content textarea.value
+
+        return
 
     document.body.appendChild template(filetree)
+
+    textarea = document.createElement "textarea"
+    
+    document.body.appendChild textarea
