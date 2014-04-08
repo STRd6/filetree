@@ -27,7 +27,7 @@
   - each files, (file) -&gt;
     %li= file.displayName
       - on &quot;click&quot;, (e) -&gt;
-        - selectedFile(file) if $(e.target).is(&#39;li&#39;)
+        - selectedFile(file) if e.target.nodeName is &#39;LI&#39;
       .delete
         - on &quot;click&quot;, -&gt; files.remove(file) if confirm(&quot;Delete #{file.path()}?&quot;)
         X</code></pre>

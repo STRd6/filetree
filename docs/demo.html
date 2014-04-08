@@ -39,8 +39,18 @@ filetree.load demoData
 
 filetree.selectedFile.observe (file) -&gt;
   console.log file
+  textarea.value = file.content()
+  textarea.<span class="function"><span class="title">onchange</span></span> = -&gt;
+    console.log <span class="string">"yo/o"</span>
+    file.content textarea.value
 
-document.body.appendChild template(filetree)</code></pre>
+    <span class="keyword">return</span>
+
+document.body.appendChild template(filetree)
+
+textarea = document.createElement <span class="string">"textarea"</span>
+
+document.body.appendChild textarea</code></pre>
 </div>
         </li>
         

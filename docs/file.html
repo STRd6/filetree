@@ -38,7 +38,9 @@ returned from the Github API.</p>
             </div>
             <div class="content"><pre><code class="lang-coffeescript">Composition = require <span class="string">"composition"</span>
 Observable = require <span class="string">"observable"</span>
-{defaults} = require <span class="string">"util"</span></code></pre>
+{defaults} = require <span class="string">"util"</span>
+
+{SHA1} = require <span class="string">"sha1"</span></code></pre>
 </div>
         </li>
         
@@ -95,7 +97,7 @@ Observable = require <span class="string">"observable"</span>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">    extension: -&gt;
-      self.path().extension()</code></pre>
+      extension self.path()</code></pre>
 </div>
         </li>
         
@@ -105,7 +107,8 @@ Observable = require <span class="string">"observable"</span>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>The <code>mode</code> of the file is what editor mode to use for our text editor.</p>
+              <p>TODO: mode should be moved out of here.</p>
+<p>The <code>mode</code> of the file is what editor mode to use for our text editor.</p>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">    mode: -&gt;
@@ -168,6 +171,20 @@ indication.</p>
     <span class="keyword">else</span>
       self.displayName(self.path())
 
+  self.sha = Observable -&gt;
+    sha = SHA1(self.content()).toString()
+
+    console.log sha
+
+    sha
+
+  self.displayName = Observable -&gt;
+    changed = <span class="string">""</span>
+    <span class="keyword">if</span> self.modified()
+      changed = <span class="string">"*"</span>
+
+    <span class="string">"<span class="subst">#{changed}</span><span class="subst">#{self.path()}</span><span class="subst">#{self.sha()}</span>"</span>
+
   <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
@@ -182,6 +199,36 @@ indication.</p>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript">module.exports = File</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h2 id="helpers">Helpers</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">extension</span></span> = (path) -&gt;
+  <span class="keyword">if</span> match = path.match(<span class="regexp">/\.([^\.]*)$/</span>, <span class="string">''</span>)
+    match[<span class="number">1</span>]
+  <span class="keyword">else</span>
+    <span class="string">''</span></code></pre>
 </div>
         </li>
         
