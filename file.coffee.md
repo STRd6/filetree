@@ -26,8 +26,11 @@ Attributes
         content: ""
         modified: false
         path: ""
+        initialSha: null
 
       throw "File must have a path" unless I.path
+
+      I.initialSha ?= I.sha
 
       self = Composition(I)
 
@@ -67,7 +70,10 @@ status.
         self.modified(true)
 
       self.sha = Observable ->
-        gitSHA(self.content())
+        I.sha = gitSHA(self.content())
+
+      unless self.initialSha()?
+        self.initialSha self.sha()
 
 The `displayName` is how the file appears in views.
 

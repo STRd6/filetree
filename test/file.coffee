@@ -23,6 +23,21 @@ describe "file", ->
 
       assert.equal file.sha(), "e6816bf5d113d19e69e0052e359d11144efcd7f1"
 
+    it "should know it's initial sha", ->
+      file = File
+        path: "test"
+
+      assert file.initialSha(), "Initial SHA is #{file.initialSha()}"
+
+    it "should keep it's initial sha if a sha is passed in", ->
+      file = File
+        path: "test"
+        sha: "e6816bf5d113d19e69e0052e359d11144efcd7f1"
+
+      file.content "something else"
+
+      assert.equal file.initialSha(), "e6816bf5d113d19e69e0052e359d11144efcd7f1"
+
   it "should know its extension", ->
     file = File
       path: "hello.coffee.md"
