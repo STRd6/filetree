@@ -56,10 +56,6 @@ The `mode` of the file is what editor mode to use for our text editor.
             else
               extension
 
-The `displayName` is how the file appears in views.
-
-        displayName: Observable(self.path())
-
 When our content changes we assume we are modified. In the future we may want to
 track the original content and compare with that to get a more accurate modified
 status.
@@ -67,28 +63,20 @@ status.
       self.content.observe ->
         self.modified(true)
 
+      self.sha = Observable ->
+        SHA1(self.content()).toString()
+
+The `displayName` is how the file appears in views.
+
 When our modified state changes we adjust the `displayName` to provide a visual
 indication.
-
-      self.modified.observe (modified) ->
-        if modified
-          self.displayName("*#{self.path()}")
-        else
-          self.displayName(self.path())
-
-      self.sha = Observable ->
-        sha = SHA1(self.content()).toString()
-
-        console.log sha
-
-        sha
 
       self.displayName = Observable ->
         changed = ""
         if self.modified()
           changed = "*"
 
-        "#{changed}#{self.path()}#{self.sha()}"
+        "#{changed}#{self.path()}"
 
       return self
 
