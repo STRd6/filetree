@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache?1397006045268">
+<html manifest="manifest.appcache?1397009234923">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -198,7 +198,7 @@ require('./main')
     "file.coffee.md": {
       "path": "file.coffee.md",
       "mode": "100644",
-      "content": "File Model\n==========\n\nThe `File` model represents a file in a file system. It is populated by data\nreturned from the Github API.\n\n    Composition = require \"composition\"\n    Observable = require \"observable\"\n    {defaults} = require \"util\"\n\n    {SHA1} = require \"sha1\"\n    utf8 = require \"./lib/utf8\"\n\nAttributes\n----------\n`modified` tracks whether the file has been changed since it was created.\n\n`path` is the path to the file.\n\n`content` contains the text content of the file.\n\n    File = (I={}) ->\n      defaults I,\n        content: \"\"\n        modified: false\n        path: \"\"\n\n      throw \"File must have a path\" unless I.path\n\n      self = Composition(I)\n\n      self.attrObservable Object.keys(I)...\n\n      self.extend\n\nThe extension is the last part of the filename after the `.`, for example\n`\"coffee\"` for a file named `\"main.coffee\"` or `\"haml\"` for a file named\n`\"filetree.haml\"`.\n\n        extension: ->\n          extension self.path()\n\nTODO: mode should be moved out of here.\n\nThe `mode` of the file is what editor mode to use for our text editor.\n\n        mode: ->\n          switch extension = self.extension()\n            when \"js\"\n              \"javascript\"\n            when \"md\" # TODO: See about nested markdown code modes for .haml.md, .js.md, and .coffee.md\n              \"markdown\"\n            when \"cson\"\n              \"coffee\"\n            when \"\"\n              \"text\"\n            else\n              extension\n\nWhen our content changes we assume we are modified. In the future we may want to\ntrack the original content and compare with that to get a more accurate modified\nstatus.\n\n      self.content.observe ->\n        self.modified(true)\n\n      self.sha = Observable ->\n        gitSHA(self.content())\n\nThe `displayName` is how the file appears in views.\n\nWhen our modified state changes we adjust the `displayName` to provide a visual\nindication.\n\n      self.displayName = Observable ->\n        changed = \"\"\n        if self.modified()\n          changed = \"*\"\n\n        \"#{changed}#{self.path()}\"\n\n      return self\n\nExport\n\n    module.exports = File\n\nHelpers\n-------\n\n    extension = (path) ->\n      if match = path.match(/\\.([^\\.]*)$/, '')\n        match[1]\n      else\n        ''\n\n    gitSHA = (string) ->\n      length = byteCount(string)\n      header = \"blob #{length}\\0\"\n\n      SHA1(\"#{header}#{string}\").toString()\n\n    byteCount = (string) ->\n      utf8.encode(string).length\n",
+      "content": "File Model\n==========\n\nThe `File` model represents a file in a file system. It is populated by data\nreturned from the Github API.\n\n    Composition = require \"composition\"\n    Observable = require \"observable\"\n    {defaults} = require \"util\"\n\n    {SHA1} = require \"sha1\"\n    utf8 = require \"./lib/utf8\"\n\nAttributes\n----------\n`modified` tracks whether the file has been changed since it was created.\n\n`path` is the path to the file.\n\n`content` contains the text content of the file.\n\n`sha` is the git SHA1 of the file.\n\n    File = (I={}) ->\n      defaults I,\n        content: \"\"\n        modified: false\n        path: \"\"\n\n      throw \"File must have a path\" unless I.path\n\n      self = Composition(I)\n\n      self.attrObservable Object.keys(I)...\n\n      self.extend\n\nThe extension is the last part of the filename after the `.`, for example\n`\"coffee\"` for a file named `\"main.coffee\"` or `\"haml\"` for a file named\n`\"filetree.haml\"`.\n\n        extension: ->\n          extension self.path()\n\nTODO: mode should be moved out of here.\n\nThe `mode` of the file is what editor mode to use for our text editor.\n\n        mode: ->\n          switch extension = self.extension()\n            when \"js\"\n              \"javascript\"\n            when \"md\" # TODO: See about nested markdown code modes for .haml.md, .js.md, and .coffee.md\n              \"markdown\"\n            when \"cson\"\n              \"coffee\"\n            when \"\"\n              \"text\"\n            else\n              extension\n\nWhen our content changes we assume we are modified. In the future we may want to\ntrack the original content and compare with that to get a more accurate modified\nstatus.\n\n      self.content.observe ->\n        self.modified(true)\n\n      self.sha = Observable ->\n        gitSHA(self.content())\n\nThe `displayName` is how the file appears in views.\n\nWhen our modified state changes we adjust the `displayName` to provide a visual\nindication.\n\n      self.displayName = Observable ->\n        changed = \"\"\n        if self.modified()\n          changed = \"*\"\n\n        \"#{changed}#{self.path()}\"\n\n      return self\n\nExport\n\n    module.exports = File\n\nHelpers\n-------\n\n    extension = (path) ->\n      if match = path.match(/\\.([^\\.]*)$/, '')\n        match[1]\n      else\n        ''\n\n    gitSHA = (string) ->\n      length = byteCount(string)\n      header = \"blob #{length}\\0\"\n\n      SHA1(\"#{header}#{string}\").toString()\n\n    byteCount = (string) ->\n      utf8.encode(string).length\n\nTODO\n----\n\n- Handle Binary data!\n",
       "type": "blob"
     },
     "filetree.coffee.md": {
@@ -216,7 +216,7 @@ require('./main')
     "pixie.cson": {
       "path": "pixie.cson",
       "mode": "100644",
-      "content": "version: \"0.3.1-pre.0\"\ndependencies:\n  composition: \"distri/compositions:v0.1.1\"\n  observable: \"distri/observable:v0.1.1\"\n  sha1: \"distri/sha1:v0.1.0\"\n  util: \"distri/util:v0.1.0\"\n",
+      "content": "version: \"0.3.1-pre.1\"\ndependencies:\n  composition: \"distri/compositions:v0.1.1\"\n  observable: \"distri/observable:v0.1.1\"\n  sha1: \"distri/sha1:v0.1.0\"\n  util: \"distri/util:v0.1.0\"\n",
       "type": "blob"
     },
     "templates/filetree.haml.md": {
@@ -234,7 +234,7 @@ require('./main')
     "test/file.coffee": {
       "path": "test/file.coffee",
       "mode": "100644",
-      "content": "File = require \"../file\"\n\ndescribe \"file\", ->\n  describe \"git SHA1s\", ->\n    it \"should keep it's sha up to date\", ->\n      file = File\n        path: \"test\"\n\n      assert.equal file.sha(), \"e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\"\n\n      file.content \"yolo\"\n\n      file.sha.observe (sha) ->\n        assert.equal sha, \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\"\n\n      assert.equal file.sha(), \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\"\n\n    it \"should work with utf-8\", ->\n      file = File\n        path: \"test\"\n\n      file.content \"i ♥ u\"\n\n      assert.equal file.sha(), \"1fe83d4f113d765a7cecddf9c71baaa875b83064\"\n\n  it \"should know its extension\", ->\n    file = File\n      path: \"hello.coffee.md\"\n\n    assert.equal file.extension(), \"md\", \"Extension is #{file.extension()}\"\n",
+      "content": "File = require \"../file\"\n\ndescribe \"file\", ->\n  describe \"git SHA1s\", ->\n    it \"should keep it's sha up to date\", ->\n      file = File\n        path: \"test\"\n\n      assert.equal file.sha(), \"e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\"\n\n      file.content \"yolo\"\n\n      file.sha.observe (sha) ->\n        assert.equal sha, \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\"\n\n      assert.equal file.sha(), \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\"\n\n    it \"should work with utf-8\", ->\n      file = File\n        path: \"test\"\n\n      file.content \"i ♥ u\\n\"\n\n      assert.equal file.sha(), \"e6816bf5d113d19e69e0052e359d11144efcd7f1\"\n\n  it \"should know its extension\", ->\n    file = File\n      path: \"hello.coffee.md\"\n\n    assert.equal file.extension(), \"md\", \"Extension is #{file.extension()}\"\n",
       "type": "blob"
     },
     "sample_data.cson": {
@@ -279,7 +279,7 @@ require('./main')
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.3.1-pre.0\",\"dependencies\":{\"composition\":\"distri/compositions:v0.1.1\",\"observable\":\"distri/observable:v0.1.1\",\"sha1\":\"distri/sha1:v0.1.0\",\"util\":\"distri/util:v0.1.0\"}};",
+      "content": "module.exports = {\"version\":\"0.3.1-pre.1\",\"dependencies\":{\"composition\":\"distri/compositions:v0.1.1\",\"observable\":\"distri/observable:v0.1.1\",\"sha1\":\"distri/sha1:v0.1.0\",\"util\":\"distri/util:v0.1.0\"}};",
       "type": "blob"
     },
     "templates/filetree": {
@@ -294,7 +294,7 @@ require('./main')
     },
     "test/file": {
       "path": "test/file",
-      "content": "(function() {\n  var File;\n\n  File = require(\"../file\");\n\n  describe(\"file\", function() {\n    describe(\"git SHA1s\", function() {\n      it(\"should keep it's sha up to date\", function() {\n        var file;\n        file = File({\n          path: \"test\"\n        });\n        assert.equal(file.sha(), \"e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\");\n        file.content(\"yolo\");\n        file.sha.observe(function(sha) {\n          return assert.equal(sha, \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\");\n        });\n        return assert.equal(file.sha(), \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\");\n      });\n      return it(\"should work with utf-8\", function() {\n        var file;\n        file = File({\n          path: \"test\"\n        });\n        file.content(\"i ♥ u\");\n        return assert.equal(file.sha(), \"1fe83d4f113d765a7cecddf9c71baaa875b83064\");\n      });\n    });\n    return it(\"should know its extension\", function() {\n      var file;\n      file = File({\n        path: \"hello.coffee.md\"\n      });\n      return assert.equal(file.extension(), \"md\", \"Extension is \" + (file.extension()));\n    });\n  });\n\n}).call(this);\n",
+      "content": "(function() {\n  var File;\n\n  File = require(\"../file\");\n\n  describe(\"file\", function() {\n    describe(\"git SHA1s\", function() {\n      it(\"should keep it's sha up to date\", function() {\n        var file;\n        file = File({\n          path: \"test\"\n        });\n        assert.equal(file.sha(), \"e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\");\n        file.content(\"yolo\");\n        file.sha.observe(function(sha) {\n          return assert.equal(sha, \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\");\n        });\n        return assert.equal(file.sha(), \"eeabc605bfdfc792a48ea3d65e47a6f9263e2801\");\n      });\n      return it(\"should work with utf-8\", function() {\n        var file;\n        file = File({\n          path: \"test\"\n        });\n        file.content(\"i ♥ u\\n\");\n        return assert.equal(file.sha(), \"e6816bf5d113d19e69e0052e359d11144efcd7f1\");\n      });\n    });\n    return it(\"should know its extension\", function() {\n      var file;\n      file = File({\n        path: \"hello.coffee.md\"\n      });\n      return assert.equal(file.extension(), \"md\", \"Extension is \" + (file.extension()));\n    });\n  });\n\n}).call(this);\n",
       "type": "blob"
     },
     "sample_data": {
@@ -321,7 +321,7 @@ require('./main')
   "progenitor": {
     "url": "http://strd6.github.io/editor/"
   },
-  "version": "0.3.1-pre.0",
+  "version": "0.3.1-pre.1",
   "entryPoint": "main",
   "repository": {
     "id": 13128952,
