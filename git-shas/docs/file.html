@@ -76,8 +76,11 @@ utf8 = require <span class="string">"./lib/utf8"</span></code></pre>
     content: <span class="string">""</span>
     modified: <span class="literal">false</span>
     path: <span class="string">""</span>
+    initialSha: <span class="literal">null</span>
 
   <span class="keyword">throw</span> <span class="string">"File must have a path"</span> <span class="keyword">unless</span> I.path
+
+  I.initialSha ?= I.sha
 
   self = Composition(I)
 
@@ -143,7 +146,10 @@ status.</p>
     self.modified(<span class="literal">true</span>)
 
   self.sha = Observable -&gt;
-    gitSHA(self.content())</code></pre>
+    I.sha = gitSHA(self.content())
+
+  <span class="keyword">unless</span> self.initialSha()?
+    self.initialSha self.sha()</code></pre>
 </div>
         </li>
         
