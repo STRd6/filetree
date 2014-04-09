@@ -9,6 +9,7 @@ returned from the Github API.
     {defaults} = require "util"
 
     {SHA1} = require "sha1"
+    utf8 = require "./lib/utf8"
 
 Attributes
 ----------
@@ -64,7 +65,7 @@ status.
         self.modified(true)
 
       self.sha = Observable ->
-        SHA1(self.content()).toString()
+        gitSHA(self.content())
 
 The `displayName` is how the file appears in views.
 
@@ -92,3 +93,12 @@ Helpers
         match[1]
       else
         ''
+
+    gitSHA = (string) ->
+      length = byteCount(string)
+      header = "blob #{length}\0"
+
+      SHA1("#{header}#{string}").toString()
+
+    byteCount = (string) ->
+      utf8.encode(string).length
