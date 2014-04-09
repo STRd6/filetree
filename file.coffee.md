@@ -19,6 +19,8 @@ Attributes
 
 `content` contains the text content of the file.
 
+`sha` is the git SHA1 of the file.
+
     File = (I={}) ->
       defaults I,
         content: ""
@@ -102,3 +104,8 @@ Helpers
 
     byteCount = (string) ->
       utf8.encode(string).length
+
+TODO
+----
+
+- Handle Binary data!

@@ -19,9 +19,9 @@ describe "file", ->
       file = File
         path: "test"
 
-      file.content "i ♥ u"
+      file.content "i ♥ u\n"
 
-      assert.equal file.sha(), "1fe83d4f113d765a7cecddf9c71baaa875b83064"
+      assert.equal file.sha(), "e6816bf5d113d19e69e0052e359d11144efcd7f1"
 
   it "should know its extension", ->
     file = File
