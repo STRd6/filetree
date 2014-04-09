@@ -40,7 +40,8 @@ returned from the Github API.</p>
 Observable = require <span class="string">"observable"</span>
 {defaults} = require <span class="string">"util"</span>
 
-{SHA1} = require <span class="string">"sha1"</span></code></pre>
+{SHA1} = require <span class="string">"sha1"</span>
+utf8 = require <span class="string">"./lib/utf8"</span></code></pre>
 </div>
         </li>
         
@@ -141,7 +142,7 @@ status.</p>
     self.modified(<span class="literal">true</span>)
 
   self.sha = Observable -&gt;
-    SHA1(self.content()).toString()</code></pre>
+    gitSHA(self.content())</code></pre>
 </div>
         </li>
         
@@ -206,7 +207,16 @@ indication.</p>
   <span class="keyword">if</span> match = path.match(<span class="regexp">/\.([^\.]*)$/</span>, <span class="string">''</span>)
     match[<span class="number">1</span>]
   <span class="keyword">else</span>
-    <span class="string">''</span></code></pre>
+    <span class="string">''</span>
+
+<span class="function"><span class="title">gitSHA</span></span> = (string) -&gt;
+  length = byteCount(string)
+  header = <span class="string">"blob <span class="subst">#{length}</span>\0"</span>
+
+  SHA1(<span class="string">"<span class="subst">#{header}</span><span class="subst">#{string}</span>"</span>).toString()
+
+<span class="function"><span class="title">byteCount</span></span> = (string) -&gt;
+  utf8.encode(string).length</code></pre>
 </div>
         </li>
         
