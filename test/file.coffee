@@ -1,4 +1,5 @@
 File = require "../file"
+Filetree = require "../filetree"
 
 describe "file", ->
   describe "git SHA1s", ->
@@ -43,3 +44,15 @@ describe "file", ->
       path: "hello.coffee.md"
 
     assert.equal file.extension(), "md", "Extension is #{file.extension()}"
+
+  it "should not have both sha and content in github tree", ->
+    filetree = Filetree()
+
+    filetree.load [
+      path: "yolo"
+      content: "wat"
+    ]
+
+    f = filetree.githubTree()[0]
+
+    assert (!f.sha and f.content) or (f.sha and !f.content)

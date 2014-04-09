@@ -6,6 +6,8 @@ Filetree Model
     Composition = require "composition"
     {defaults} = require "util"
 
+    _ = require "./lib/underscore"
+
 The `Filetree` model represents a tree of files.
 
     Filetree = (I={}) ->
@@ -56,6 +58,17 @@ The objects have a `path`, `content`, `type`, and `mode`.
         data: ->
           self.files.map (file) ->
             file.I
+
+The subset of data appropriate to push to github.
+
+TODO: May want to move this out to the github lib.
+
+        githubTree: ->
+          self.data().map (datum) ->
+            if datum.initialSha is datum.sha
+              _.pick datum, "path", "mode", "type", "sha" 
+            else
+              _.pick datum, "path", "mode", "type", "content"
 
 The filetree `hasUnsavedChanges` if any file in the tree is modified.
 
