@@ -19,12 +19,15 @@ Attributes
 
 `content` contains the text content of the file.
 
+`mode` is the file mode for saving to github.
+
 `sha` is the git SHA1 of the file.
 
     File = (I={}) ->
       defaults I,
         content: ""
         modified: false
+        mode: "100644"
         path: ""
         initialSha: null
 
@@ -45,7 +48,8 @@ The extension is the last part of the filename after the `.`, for example
         extension: ->
           extension self.path()
 
-TODO: mode should be moved out of here.
+TODO: This mode should be moved out of here because it is ambiguous with the
+github file mode.
 
 The `mode` of the file is what editor mode to use for our text editor.
 
