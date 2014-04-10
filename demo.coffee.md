@@ -17,10 +17,8 @@ A demo application displaying the filetree.
     filetree.load demoData
 
     filetree.selectedFile.observe (file) ->
-      console.log file
       textarea.value = file.content()
       textarea.onchange = ->
-        console.log "yo/o"
         file.content textarea.value
 
         return

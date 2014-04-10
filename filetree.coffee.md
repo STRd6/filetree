@@ -55,10 +55,7 @@ The objects have a `path`, `content`, `type`, and `mode`.
 
         data: ->
           self.files.map (file) ->
-            path: file.path()
-            mode: "100644"
-            content: file.content()
-            type: "blob"
+            file.I
 
 The filetree `hasUnsavedChanges` if any file in the tree is modified.
 
