@@ -76,9 +76,6 @@ status.
       self.sha = Observable ->
         I.sha = gitSHA(self.content())
 
-      unless self.initialSha()?
-        self.initialSha self.sha()
-
 The `displayName` is how the file appears in views.
 
 When our modified state changes we adjust the `displayName` to provide a visual

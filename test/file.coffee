@@ -24,11 +24,11 @@ describe "file", ->
 
       assert.equal file.sha(), "e6816bf5d113d19e69e0052e359d11144efcd7f1"
 
-    it "should know it's initial sha", ->
+    it "should not know it's initial sha if no sha is passed in", ->
       file = File
         path: "test"
 
-      assert file.initialSha(), "Initial SHA is #{file.initialSha()}"
+      assert.equal file.initialSha(), undefined
 
     it "should keep it's initial sha if a sha is passed in", ->
       file = File
