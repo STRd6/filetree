@@ -40,7 +40,8 @@ returned from the Github API.</p>
 Observable = require <span class="string">"observable"</span>
 {defaults} = require <span class="string">"util"</span>
 
-{SHA1} = require <span class="string">"sha1"</span></code></pre>
+{SHA1} = require <span class="string">"sha1"</span>
+utf8 = require <span class="string">"./lib/utf8"</span></code></pre>
 </div>
         </li>
         
@@ -67,15 +68,21 @@ Observable = require <span class="string">"observable"</span>
               <p><code>modified</code> tracks whether the file has been changed since it was created.</p>
 <p><code>path</code> is the path to the file.</p>
 <p><code>content</code> contains the text content of the file.</p>
+<p><code>mode</code> is the file mode for saving to github.</p>
+<p><code>sha</code> is the git SHA1 of the file.</p>
 
             </div>
             <div class="content"><pre><code class="lang-coffeescript"><span class="function"><span class="title">File</span></span> = (I={}) -&gt;
   defaults I,
     content: <span class="string">""</span>
     modified: <span class="literal">false</span>
+    mode: <span class="string">"100644"</span>
     path: <span class="string">""</span>
+    initialSha: <span class="literal">null</span>
 
   <span class="keyword">throw</span> <span class="string">"File must have a path"</span> <span class="keyword">unless</span> I.path
+
+  I.initialSha ?= I.sha
 
   self = Composition(I)
 
@@ -107,7 +114,8 @@ Observable = require <span class="string">"observable"</span>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>TODO: mode should be moved out of here.</p>
+              <p>TODO: This mode should be moved out of here because it is ambiguous with the
+github file mode.</p>
 <p>The <code>mode</code> of the file is what editor mode to use for our text editor.</p>
 
             </div>
@@ -132,10 +140,16 @@ Observable = require <span class="string">"observable"</span>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>The <code>displayName</code> is how the file appears in views.</p>
+              <p>When our content changes we assume we are modified. In the future we may want to
+track the original content and compare with that to get a more accurate modified
+status.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">    displayName: Observable(self.path())</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">  self.content.observe -&gt;
+    self.modified(<span class="literal">true</span>)
+
+  self.sha = Observable -&gt;
+    I.sha = gitSHA(self.content())</code></pre>
 </div>
         </li>
         
@@ -145,13 +159,19 @@ Observable = require <span class="string">"observable"</span>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p>When our content changes we assume we are modified. In the future we may want to
-track the original content and compare with that to get a more accurate modified
-status.</p>
+              <p>The <code>displayName</code> is how the file appears in views.</p>
+<p>When our modified state changes we adjust the <code>displayName</code> to provide a visual
+indication.</p>
 
             </div>
-            <div class="content"><pre><code class="lang-coffeescript">  self.content.observe -&gt;
-    self.modified(<span class="literal">true</span>)</code></pre>
+            <div class="content"><pre><code class="lang-coffeescript">  self.displayName = Observable -&gt;
+    changed = <span class="string">""</span>
+    <span class="keyword">if</span> self.modified()
+      changed = <span class="string">"*"</span>
+
+    <span class="string">"<span class="subst">#{changed}</span><span class="subst">#{self.path()}</span>"</span>
+
+  <span class="keyword">return</span> self</code></pre>
 </div>
         </li>
         
@@ -161,40 +181,6 @@ status.</p>
               <div class="pilwrap">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>When our modified state changes we adjust the <code>displayName</code> to provide a visual
-indication.</p>
-
-            </div>
-            <div class="content"><pre><code class="lang-coffeescript">  self.modified.observe (modified) -&gt;
-    <span class="keyword">if</span> modified
-      self.displayName(<span class="string">"*<span class="subst">#{self.path()}</span>"</span>)
-    <span class="keyword">else</span>
-      self.displayName(self.path())
-
-  self.sha = Observable -&gt;
-    sha = SHA1(self.content()).toString()
-
-    console.log sha
-
-    sha
-
-  self.displayName = Observable -&gt;
-    changed = <span class="string">""</span>
-    <span class="keyword">if</span> self.modified()
-      changed = <span class="string">"*"</span>
-
-    <span class="string">"<span class="subst">#{changed}</span><span class="subst">#{self.path()}</span><span class="subst">#{self.sha()}</span>"</span>
-
-  <span class="keyword">return</span> self</code></pre>
-</div>
-        </li>
-        
-        
-        <li id="section-10">
-            <div class="annotation">
-              <div class="pilwrap">
-                <a class="pilcrow" href="#section-10">&#182;</a>
-              </div>
               <p>Export</p>
 
             </div>
@@ -203,10 +189,10 @@ indication.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-10">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <h2 id="helpers">Helpers</h2>
 
@@ -217,10 +203,10 @@ indication.</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-11">
             <div class="annotation">
               <div class="pilwrap">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               
             </div>
@@ -228,7 +214,46 @@ indication.</p>
   <span class="keyword">if</span> match = path.match(<span class="regexp">/\.([^\.]*)$/</span>, <span class="string">''</span>)
     match[<span class="number">1</span>]
   <span class="keyword">else</span>
-    <span class="string">''</span></code></pre>
+    <span class="string">''</span>
+
+<span class="function"><span class="title">gitSHA</span></span> = (string) -&gt;
+  length = byteCount(string)
+  header = <span class="string">"blob <span class="subst">#{length}</span>\0"</span>
+
+  SHA1(<span class="string">"<span class="subst">#{header}</span><span class="subst">#{string}</span>"</span>).toString()
+
+<span class="function"><span class="title">byteCount</span></span> = (string) -&gt;
+  utf8.encode(string).length</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h2 id="todo">TODO</h2>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
+</div>
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              <div class="pilwrap">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <ul>
+<li>Handle Binary data!</li>
+</ul>
+
+            </div>
+            <div class="content"><pre><code class="lang-coffeescript">
+</code></pre>
 </div>
         </li>
         
