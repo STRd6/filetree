@@ -222,7 +222,7 @@
     },
     "templates/filetree.haml.md": {
       "path": "templates/filetree.haml.md",
-      "content": "Render a list of files as a filetree.\n\n    %ul.filetree\n      - selectedFile = @selectedFile\n      - files = @files\n      - each files, (file) ->\n        %li= file.displayName\n          - on \"click\", (e) ->\n            - selectedFile(file) if e.target.nodeName is 'LI'\n          .delete\n            - on \"click\", -> files.remove(file) if confirm(\"Delete #{file.path()}?\")\n            X\n",
+      "content": "Render a list of files as a filetree.\n\n    %ul.filetree\n      - selectedFile = @selectedFile\n      - files = @files\n      - each files, (file) ->\n        - select = (e) -> selectedFile(file) if e.target.nodeName is 'LI'\n        %li(click=select)= file.displayName\n          - remove = -> files.remove(file) if confirm(\"Delete #{file.path()}?\")\n          .delete(click=remove)\n            X\n",
       "mode": "100644",
       "type": "blob"
     },
@@ -283,7 +283,7 @@
     },
     "templates/filetree": {
       "path": "templates/filetree",
-      "content": "Runtime = require(\"/lib/_hamljr_runtime\");\n\nmodule.exports = (function(data) {\n  return (function() {\n    var files, selectedFile, __runtime;\n    __runtime = Runtime(this);\n    __runtime.push(document.createDocumentFragment());\n    __runtime.push(document.createElement(\"ul\"));\n    __runtime.classes(\"filetree\");\n    selectedFile = this.selectedFile;\n    files = this.files;\n    __runtime.each(files, function(file) {\n      __runtime.push(document.createElement(\"li\"));\n      __runtime.text(file.displayName);\n      __runtime.on(\"click\", function(e) {\n        if (e.target.nodeName === 'LI') {\n          return selectedFile(file);\n        }\n      });\n      __runtime.push(document.createElement(\"div\"));\n      __runtime.classes(\"delete\");\n      __runtime.on(\"click\", function() {\n        if (confirm(\"Delete \" + (file.path()) + \"?\")) {\n          return files.remove(file);\n        }\n      });\n      __runtime.text(\"X\\n\");\n      __runtime.pop();\n      return __runtime.pop();\n    });\n    __runtime.pop();\n    return __runtime.pop();\n  }).call(data);\n});\n",
+      "content": "Runtime = require(\"/lib/_hamljr_runtime\");\n\nmodule.exports = (function(data) {\n  return (function() {\n    var files, selectedFile, __runtime;\n    __runtime = Runtime(this);\n    __runtime.push(document.createDocumentFragment());\n    __runtime.push(document.createElement(\"ul\"));\n    __runtime.classes(\"filetree\");\n    selectedFile = this.selectedFile;\n    files = this.files;\n    __runtime.each(files, function(file) {\n      var remove, select;\n      select = function(e) {\n        if (e.target.nodeName === 'LI') {\n          return selectedFile(file);\n        }\n      };\n      __runtime.push(document.createElement(\"li\"));\n      __runtime.attribute(\"click\", select);\n      __runtime.text(file.displayName);\n      remove = function() {\n        if (confirm(\"Delete \" + (file.path()) + \"?\")) {\n          return files.remove(file);\n        }\n      };\n      __runtime.push(document.createElement(\"div\"));\n      __runtime.classes(\"delete\");\n      __runtime.attribute(\"click\", remove);\n      __runtime.text(\"X\\n\");\n      __runtime.pop();\n      return __runtime.pop();\n    });\n    __runtime.pop();\n    return __runtime.pop();\n  }).call(data);\n});\n",
       "type": "blob"
     },
     "test/data_consistency": {
