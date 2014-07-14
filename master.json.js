@@ -44,7 +44,7 @@ window["STRd6/filetree:master"]({
     },
     "pixie.cson": {
       "path": "pixie.cson",
-      "content": "version: \"0.3.2-pre.0\"\ndependencies:\n  composition: \"distri/model:v0.1.2\"\n  observable: \"distri/observable:v0.3.1\"\n  sha1: \"distri/sha1:v0.1.0\"\n  util: \"distri/util:v0.1.0\"\n",
+      "content": "version: \"0.3.2-pre.1\"\ndependencies:\n  composition: \"distri/model:v0.1.2\"\n  observable: \"distri/observable:v0.3.1\"\n  sha1: \"distri/sha1:v0.1.0\"\n  util: \"distri/util:v0.1.0\"\n",
       "mode": "100644",
       "type": "blob"
     },
@@ -107,7 +107,7 @@ window["STRd6/filetree:master"]({
     },
     "pixie": {
       "path": "pixie",
-      "content": "module.exports = {\"version\":\"0.3.2-pre.0\",\"dependencies\":{\"composition\":\"distri/model:v0.1.2\",\"observable\":\"distri/observable:v0.3.1\",\"sha1\":\"distri/sha1:v0.1.0\",\"util\":\"distri/util:v0.1.0\"}};",
+      "content": "module.exports = {\"version\":\"0.3.2-pre.1\",\"dependencies\":{\"composition\":\"distri/model:v0.1.2\",\"observable\":\"distri/observable:v0.3.1\",\"sha1\":\"distri/sha1:v0.1.0\",\"util\":\"distri/util:v0.1.0\"}};",
       "type": "blob"
     },
     "sample_data": {
@@ -144,7 +144,7 @@ window["STRd6/filetree:master"]({
   "progenitor": {
     "url": "http://www.danielx.net/editor/"
   },
-  "version": "0.3.2-pre.0",
+  "version": "0.3.2-pre.1",
   "entryPoint": "main",
   "repository": {
     "branch": "master",
