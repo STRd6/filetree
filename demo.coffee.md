@@ -26,5 +26,5 @@ A demo application displaying the filetree.
     document.body.appendChild template(filetree)
 
     textarea = document.createElement "textarea"
-    
+
     document.body.appendChild textarea
