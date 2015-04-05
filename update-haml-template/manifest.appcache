@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 1428256685562
+
+CACHE:
+index.html
+../update-haml-template.json.js
+
+
+NETWORK:
+https://*
+http://*
+*
