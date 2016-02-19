@@ -147,7 +147,7 @@
   "version": "0.3.2",
   "entryPoint": "main",
   "repository": {
-    "branch": "master",
+    "branch": "v0.3.2",
     "default_branch": "master",
     "full_name": "STRd6/filetree",
     "homepage": null,
